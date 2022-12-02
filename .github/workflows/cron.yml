@@ -13,4 +13,5 @@ jobs:
       - name: latest tag
         run: echo LATEST_TAG_VERSION=${GITHUB_REF#refs/tags/} >> $GITHUB_ENV
       - name: print latest
-        run: echo "Latest git tag: ${LATEST_TAG_VERSION} and latest upstream version ${GOVC_LATEST_VERSION}"
+        run: |
+         echo "Latest git tag: '${LATEST_TAG_VERSION}' and latest upstream version '${GOVC_LATEST_VERSION}'"
