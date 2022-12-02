@@ -9,10 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: get latest govc version
-        run: echo ::set-env name=GOVC_LATEST_VERSION::$(curl -s https://github.com/vmware/govmomi/releases.atom | grep -oPm1 "(?<=<title>v)[^<]+")
-      - name: print latest version
-        run: echo $GOVC_LATEST_VERSION
+        run: version=$(curl -s https://github.com/vmware/govmomi/releases.atom | grep -oPm1 "(?<=<title>v)[^<]+") && echo "GOVC_LATEST_VERSION=${version}" >> $GITHUB_ENV
       - name: latest tag
-        run: echo ::set-env name=LATEST_TAG_VERSION::${GITHUB_REF#refs/tags/}
-      - name: print latest tag
-        run: echo $LATEST_TAG_VERSION
+        run: echo LATEST_TAG_VERSION=${GITHUB_REF#refs/tags/} >> $GITHUB_ENV
+      - name: print latest
+        run: echo "Latest git tag: ${LATEST_TAG_VERSION} and latest upstream version ${GOVC_LATEST_VERSION}"
