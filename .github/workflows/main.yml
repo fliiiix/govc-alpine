@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: build docker image
       run: |
         docker build . --tag l33tname/govc-alpine:${{ github.sha }}
