@@ -1,7 +1,7 @@
 FROM alpine:latest
 MAINTAINER l33tname <sirl33tname@gmail.com>
 
-ENV GOVC_VERSION 0.45.1
+ENV GOVC_VERSION 0.47.0-alpha.0
 ENV GOVC_ARCH Linux_x86_64
 
 USER ${user}
