@@ -1,29 +1,29 @@
-name: update repo
-
-on:
-  schedule:
-    - cron: "17 18 * * *"
-
-jobs:
-  cron-update:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
-          token: ${{ secrets.PAT }}
-          fetch-depth: 0
-      - name: get latest govc version
-        run: version=$(curl -s https://github.com/vmware/govmomi/releases.atom | grep -oPm1 "(?<=<title>v)[^<]+") && echo "GOVC_LATEST_VERSION=${version}" >> $GITHUB_ENV
-      - name: latest local tag
-        run: tag=$(git describe --tags `git rev-list --tags --max-count=1`) && echo "LATEST_TAG_VERSION=${tag}" >> $GITHUB_ENV
-      - name: print status
-        run: |
-         echo "Latest local git tag: '${LATEST_TAG_VERSION}' and latest upstream version '${GOVC_LATEST_VERSION}'"
-      - name: update docker file
-        run: sed -i "s/ENV GOVC_VERSION.*/ENV GOVC_VERSION ${GOVC_LATEST_VERSION}/g" Dockerfile
-      # Commit all changed files back to the repository
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Automatic update from '${{ env.LATEST_TAG_VERSION }}' to 'v${{ env.GOVC_LATEST_VERSION }}'
-          tagging_message: 'v${{ env.GOVC_LATEST_VERSION }}'
+#name: update repo
+#
+#on:
+#  schedule:
+#    - cron: "17 18 * * *"
+#
+#jobs:
+#  cron-update:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#        with:
+#          ref: ${{ github.head_ref }}
+#          token: ${{ secrets.PAT }}
+#          fetch-depth: 0
+#      - name: get latest govc version
+#        run: version=$(curl -s https://github.com/vmware/govmomi/releases.atom | grep -oPm1 "(?<=<title>v)[^<]+") && echo "GOVC_LATEST_VERSION=${version}" >> $GITHUB_ENV
+#      - name: latest local tag
+#        run: tag=$(git describe --tags `git rev-list --tags --max-count=1`) && echo "LATEST_TAG_VERSION=${tag}" >> $GITHUB_ENV
+#      - name: print status
+#        run: |
+#         echo "Latest local git tag: '${LATEST_TAG_VERSION}' and latest upstream version '${GOVC_LATEST_VERSION}'"
+#      - name: update docker file
+#        run: sed -i "s/ENV GOVC_VERSION.*/ENV GOVC_VERSION ${GOVC_LATEST_VERSION}/g" Dockerfile
+#      # Commit all changed files back to the repository
+#      - uses: stefanzweifel/git-auto-commit-action@v4
+#        with:
+#          commit_message: Automatic update from '${{ env.LATEST_TAG_VERSION }}' to 'v${{ env.GOVC_LATEST_VERSION }}'
+#          tagging_message: 'v${{ env.GOVC_LATEST_VERSION }}'
